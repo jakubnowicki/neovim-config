@@ -16,8 +16,3 @@ opt.cursorline = true
 -- splits
 opt.splitright = true
 opt.splitbelow = true
-
-vim.api.nvim_create_autocmd("TermOpen", {
-  pattern = "*",
-  command = "startinsert",
-})
