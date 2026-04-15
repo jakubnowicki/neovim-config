@@ -1,0 +1,8 @@
+# swap / backup
+*.swp
+*.swo
+
+# macOS (na wszelki wypadek)
+.DS_Store
+
+
