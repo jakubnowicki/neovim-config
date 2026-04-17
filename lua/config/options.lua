@@ -16,3 +16,15 @@ opt.cursorline = true
 -- splits
 opt.splitright = true
 opt.splitbelow = true
+
+opt.list = true
+opt.listchars = {
+  tab = "» ",
+  trail = "·",
+  nbsp = "␣",
+}
+
+opt.ignorecase = true
+opt.smartcase = true
+opt.hlsearch = true
+opt.incsearch = true
