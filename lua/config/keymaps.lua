@@ -1,5 +1,6 @@
 local map = vim.keymap.set
 local terminal = require("config.terminal")
+local fmt = require("config.format")
 
 -- leader key
 vim.g.mapleader = " "
@@ -18,3 +19,8 @@ map("n", "<leader>q", "<cmd>close<cr>", { desc = "Close window" })
 
 -- toggle terminal
 map("n", "<leader>tt", terminal.toggle, { desc = "Toggle terminal" })
+
+-- format buffer
+map("n", "<leader>bf", function()
+  fmt.format(0)
+end, { desc = "Format buffer" })
