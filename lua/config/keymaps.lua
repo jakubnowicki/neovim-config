@@ -24,3 +24,18 @@ map("n", "<leader>tt", terminal.toggle, { desc = "Toggle terminal" })
 map("n", "<leader>bf", function()
   fmt.format(0)
 end, { desc = "Format buffer" })
+
+-- split management
+map("n", "<leader>sv", "<cmd>vsplit<cr>", { desc = "Vertical split" })
+map("n", "<leader>sh", "<cmd>split<cr>", { desc = "Horizontal split" })
+
+map("n", "<leader><leader>", "<C-^>", { desc = "Alternate buffer" })
+
+-- resize splits
+map("n", "<leader>=", "<C-w>=", { desc = "Equalize splits" })
+map("n", "<leader>sx", "<cmd>close<cr>", { desc = "Close split" })
+
+-- buffer navigation
+map("n", "<leader>bp", "<cmd>bprevious<cr>", { desc = "Previous buffer" })
+map("n", "<leader>bn", "<cmd>bnext<cr>", { desc = "Next buffer" })
+map("n", "<leader>bd", "<cmd>bdelete<cr>", { desc = "Delete buffer" })
