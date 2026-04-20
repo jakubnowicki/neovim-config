@@ -48,6 +48,7 @@ function M.setup()
 
   map("n", "<leader>fb", builtin.buffers, { desc = "Buffers" })
   map("n", "<leader>fh", builtin.help_tags, { desc = "Help tags" })
+  map("n", "<leader>fs", builtin.lsp_document_symbols, { desc = "Document symbols" })
 
   map("n", "<leader>fF", function()
     builtin.find_files({
