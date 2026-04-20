@@ -25,6 +25,8 @@ function M.attach(bufnr)
   map("n", "<leader>gp", gs.preview_hunk, { buffer = bufnr, desc = "Preview hunk" })
   map("n", "<leader>gs", gs.stage_hunk, { buffer = bufnr, desc = "Stage hunk" })
   map("n", "<leader>gr", gs.reset_hunk, { buffer = bufnr, desc = "Reset hunk" })
+  map("n", "<leader>gS", gs.stage_buffer, { buffer = bufnr, desc = "Stage buffer" })
+  map("n", "<leader>gR", gs.reset_buffer, { buffer = bufnr, desc = "Reset buffer" })
   map("n", "<leader>gb", gs.toggle_current_line_blame, { buffer = bufnr, desc = "Toggle line blame" })
 end
 
