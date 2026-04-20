@@ -3,6 +3,7 @@ return {
   config = function()
     local fmt = require("config.format")
     local lsp_keymaps = require("config.lsp_keymaps")
+    local capabilities = require("cmp_nvim_lsp").default_capabilities()
 
     -- Air: formatting only
     vim.lsp.config("air", {
@@ -27,6 +28,7 @@ return {
           })
         end
       end,
+      capabilities = capabilities,
     })
 
     -- R languageserver: IDE features only
@@ -41,6 +43,7 @@ return {
 
         lsp_keymaps.attach(bufnr)
       end,
+      capabilities = capabilities,
     })
 
     vim.lsp.enable("air")
