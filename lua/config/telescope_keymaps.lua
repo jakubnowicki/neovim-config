@@ -64,6 +64,12 @@ function M.setup()
       end,
     })
   end, { desc = "Grep ALL" })
+
+  map("n", "<leader>gf", builtin.git_files, { desc = "Git files" })
+  map("n", "<leader>gc", builtin.git_commits, { desc = "Git commits" })
+  map("n", "<leader>gC", builtin.git_bcommits, { desc = "Buffer commits" })
+  map("n", "<leader>gB", builtin.git_branches, { desc = "Git branches" })
+  map("n", "<leader>gt", builtin.git_status, { desc = "Git status" })
 end
 
 return M
