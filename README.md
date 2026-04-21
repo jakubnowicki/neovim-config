@@ -26,6 +26,7 @@ small enough to understand, easy to debug, and useful in restricted terminals.
 ├── lua
 │   ├── config
 │   │   ├── autocmds.lua
+│   │   ├── claude.lua
 │   │   ├── cmp_keymaps.lua
 │   │   ├── format.lua
 │   │   ├── gitsigns_keymaps.lua
@@ -56,6 +57,7 @@ small enough to understand, easy to debug, and useful in restricted terminals.
 - `lua/config/keymaps.lua` contains global keymaps.
 - `lua/config/autocmds.lua` contains small automatic behaviors.
 - `lua/config/terminal.lua` contains the reusable bottom terminal.
+- `lua/config/claude.lua` contains the Claude Code terminal toggle.
 - `lua/config/lazy.lua` bootstraps and configures `lazy.nvim`.
 - `lua/config/format.lua` centralizes formatting behavior.
 - `lua/config/lsp_keymaps.lua` defines buffer-local LSP mappings.
@@ -77,6 +79,9 @@ Global mappings:
 | `<leader>w` | Normal | Save file |
 | `<leader>q` | Normal | Close current window |
 | `<leader>tt` | Normal | Toggle bottom terminal |
+| `<leader>ac` | Normal | Toggle Claude Code terminal |
+| `<leader>as` | Normal | Send current file path to Claude Code |
+| `<leader>as` | Visual | Send selection to Claude Code |
 | `<leader>bf` | Normal | Format current buffer |
 | `<leader>sv` | Normal | Open vertical split |
 | `<leader>sh` | Normal | Open horizontal split |
@@ -174,6 +179,19 @@ root:
 Manual formatting through `<leader>bf` still uses the configured `air` LSP
 client.
 
+## Claude Code Notes
+
+Claude Code is run through Neovim's built-in terminal, not through a plugin.
+
+Expected external tool:
+
+- `claude` available on `PATH`
+
+`<leader>ac` opens Claude Code in a right-side window, starts it from the current
+project root, and reuses the Claude terminal buffer when toggled again.
+`<leader>as` sends either the current file path from normal mode or the selected
+text from visual mode.
+
 ## Roadmap
 
 The broader plan lives in `project.md`. The next likely steps are:
@@ -181,7 +199,7 @@ The broader plan lives in `project.md`. The next likely steps are:
 1. Keep tightening the current R workflow.
 2. Add a file explorer such as Oil if the workflow needs it.
 3. Add formatting support for one more language at a time.
-4. Add AI tools only after the core editing workflow is solid.
+4. Add Copilot only after the core editing workflow is solid.
 
 ## What This Config Avoids
 

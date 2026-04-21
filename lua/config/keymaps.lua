@@ -1,6 +1,7 @@
 local map = vim.keymap.set
 local terminal = require("config.terminal")
 local fmt = require("config.format")
+local claude = require("config.claude")
 
 -- leader key
 vim.g.mapleader = " "
@@ -39,3 +40,10 @@ map("n", "<leader>sx", "<cmd>close<cr>", { desc = "Close split" })
 map("n", "<leader>bp", "<cmd>bprevious<cr>", { desc = "Previous buffer" })
 map("n", "<leader>bn", "<cmd>bnext<cr>", { desc = "Next buffer" })
 map("n", "<leader>bd", "<cmd>bdelete<cr>", { desc = "Delete buffer" })
+
+-- toggle Claude Code
+map("n", "<leader>ac", claude.toggle, { desc = "Toggle Claude Code" })
+map("n", "<leader>as", claude.send_current_file, { desc = "Send current file to Claude" })
+map("v", "<leader>as", function()
+  claude.send_selection()
+end, { desc = "Send selection to Claude" })
