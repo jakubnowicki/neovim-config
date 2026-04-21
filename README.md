@@ -26,18 +26,24 @@ small enough to understand, easy to debug, and useful in restricted terminals.
 ├── lua
 │   ├── config
 │   │   ├── autocmds.lua
+│   │   ├── cmp_keymaps.lua
 │   │   ├── format.lua
+│   │   ├── gitsigns_keymaps.lua
 │   │   ├── keymaps.lua
 │   │   ├── lazy.lua
 │   │   ├── lsp_hover.lua
 │   │   ├── lsp_keymaps.lua
 │   │   ├── options.lua
+│   │   ├── telescope_keymaps.lua
 │   │   └── terminal.lua
 │   └── plugins
+│       ├── cmp.lua
 │       ├── colorscheme.lua
+│       ├── gitsigns.lua
 │       ├── init.lua
 │       ├── lsp.lua
 │       ├── statusline.lua
+│       ├── telescope.lua
 │       ├── treesitter.lua
 │       └── which-key.lua
 └── README.md
@@ -54,11 +60,17 @@ small enough to understand, easy to debug, and useful in restricted terminals.
 - `lua/config/format.lua` centralizes formatting behavior.
 - `lua/config/lsp_keymaps.lua` defines buffer-local LSP mappings.
 - `lua/config/lsp_hover.lua` provides compact and full hover popups.
+- `lua/config/cmp_keymaps.lua` defines completion mappings.
+- `lua/config/telescope_keymaps.lua` defines Telescope mappings and picker
+  defaults.
+- `lua/config/gitsigns_keymaps.lua` defines buffer-local Git hunk mappings.
 - `lua/plugins/*.lua` contains plugin specs loaded by `lazy.nvim`.
 
 ## Keymaps
 
 Leader is `<Space>`.
+
+Global mappings:
 
 | Key | Mode | Action |
 | --- | --- | --- |
@@ -66,11 +78,44 @@ Leader is `<Space>`.
 | `<leader>q` | Normal | Close current window |
 | `<leader>tt` | Normal | Toggle bottom terminal |
 | `<leader>bf` | Normal | Format current buffer |
+| `<leader>sv` | Normal | Open vertical split |
+| `<leader>sh` | Normal | Open horizontal split |
+| `<leader>sx` | Normal | Close split |
+| `<leader>=` | Normal | Equalize splits |
+| `<leader><leader>` | Normal | Switch to alternate buffer |
+| `<leader>bp` | Normal | Previous buffer |
+| `<leader>bn` | Normal | Next buffer |
+| `<leader>bd` | Normal | Delete buffer |
+| `gt` | Normal | Next tab, built-in Vim mapping |
+| `gT` | Normal | Previous tab, built-in Vim mapping |
+| `{count}gt` | Normal | Go to tab number, built-in Vim mapping |
 | `<C-h>` | Normal | Move to left window |
 | `<C-j>` | Normal | Move to lower window |
 | `<C-k>` | Normal | Move to upper window |
 | `<C-l>` | Normal | Move to right window |
 | `<Esc>` | Terminal | Leave terminal mode |
+
+Telescope mappings:
+
+| Key | Mode | Action |
+| --- | --- | --- |
+| `<leader>ff` | Normal | Find files, respecting common ignores |
+| `<leader>fg` | Normal | Live grep, respecting common ignores |
+| `<leader>fb` | Normal | Buffers |
+| `<leader>fh` | Normal | Help tags |
+| `<leader>fs` | Normal | Document symbols |
+| `<leader>fF` | Normal | Find all files, including ignored files |
+| `<leader>fG` | Normal | Grep all files, including ignored files |
+| `<leader>gf` | Normal | Git files |
+| `<leader>gc` | Normal | Git commits |
+| `<leader>gC` | Normal | Current buffer commits |
+| `<leader>gB` | Normal | Git branches |
+| `<leader>gt` | Normal | Git status |
+| `<C-j>` | Telescope insert | Move selection down |
+| `<C-k>` | Telescope insert | Move selection up |
+| `<C-x>` | Telescope insert/normal | Open selection in horizontal split |
+| `<C-v>` | Telescope insert/normal | Open selection in vertical split |
+| `<C-t>` | Telescope insert/normal | Open selection in new tab |
 
 LSP mappings are attached only when an LSP client is active:
 
@@ -82,6 +127,29 @@ LSP mappings are attached only when an LSP client is active:
 | `gr` | Normal | References |
 | `<leader>rn` | Normal | Rename symbol |
 | `<leader>lh` | Normal | Signature help |
+
+Gitsigns mappings are attached only for buffers managed by Git:
+
+| Key | Mode | Action |
+| --- | --- | --- |
+| `]c` | Normal | Next hunk |
+| `[c` | Normal | Previous hunk |
+| `<leader>gp` | Normal | Preview hunk |
+| `<leader>gs` | Normal | Stage hunk |
+| `<leader>gr` | Normal | Reset hunk |
+| `<leader>gS` | Normal | Stage buffer |
+| `<leader>gR` | Normal | Reset buffer |
+| `<leader>gb` | Normal | Toggle current line blame |
+
+Completion mappings are active in insert/select mode:
+
+| Key | Mode | Action |
+| --- | --- | --- |
+| `<C-n>` | Insert/Select | Select next completion item |
+| `<C-p>` | Insert/Select | Select previous completion item |
+| `<C-e>` | Insert/Select | Abort completion |
+| `<C-Space>` | Insert/Select | Open completion menu |
+| `<C-y>` | Insert/Select | Confirm selected completion item |
 
 ## R Setup Notes
 
@@ -111,10 +179,9 @@ client.
 The broader plan lives in `project.md`. The next likely steps are:
 
 1. Keep tightening the current R workflow.
-2. Add completion with `blink.cmp`.
-3. Add focused navigation/search tooling.
-4. Add formatting support for one more language at a time.
-5. Add AI tools only after the core editing workflow is solid.
+2. Add a file explorer such as Oil if the workflow needs it.
+3. Add formatting support for one more language at a time.
+4. Add AI tools only after the core editing workflow is solid.
 
 ## What This Config Avoids
 
