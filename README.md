@@ -28,6 +28,7 @@ small enough to understand, easy to debug, and useful in restricted terminals.
 │   │   ├── autocmds.lua
 │   │   ├── claude.lua
 │   │   ├── cmp_keymaps.lua
+│   │   ├── diffview_keymaps.lua
 │   │   ├── format.lua
 │   │   ├── gitsigns_keymaps.lua
 │   │   ├── keymaps.lua
@@ -40,6 +41,7 @@ small enough to understand, easy to debug, and useful in restricted terminals.
 │   └── plugins
 │       ├── cmp.lua
 │       ├── colorscheme.lua
+│       ├── diffview.lua
 │       ├── gitsigns.lua
 │       ├── init.lua
 │       ├── lsp.lua
@@ -66,6 +68,7 @@ small enough to understand, easy to debug, and useful in restricted terminals.
 - `lua/config/telescope_keymaps.lua` defines Telescope mappings and picker
   defaults.
 - `lua/config/gitsigns_keymaps.lua` defines buffer-local Git hunk mappings.
+- `lua/config/diffview_keymaps.lua` defines Git diff and history mappings.
 - `lua/plugins/*.lua` contains plugin specs loaded by `lazy.nvim`.
 
 ## Keymaps
@@ -145,6 +148,16 @@ Gitsigns mappings are attached only for buffers managed by Git:
 | `<leader>gS` | Normal | Stage buffer |
 | `<leader>gR` | Normal | Reset buffer |
 | `<leader>gb` | Normal | Toggle current line blame |
+
+Diffview mappings:
+
+| Key | Mode | Action |
+| --- | --- | --- |
+| `<leader>gd` | Normal | Open Git diff view |
+| `<leader>gD` | Normal | Close Git diff view |
+| `<leader>gh` | Normal | Current file history |
+| `<leader>gh` | Visual | Selection history |
+| `<leader>gH` | Normal | Project history |
 
 Completion mappings are active in insert/select mode:
 
