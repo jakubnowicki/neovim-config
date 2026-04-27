@@ -47,3 +47,36 @@ map("n", "<leader>as", claude.send_current_file, { desc = "Send current file to 
 map("v", "<leader>as", function()
   claude.send_selection()
 end, { desc = "Send selection to Claude" })
+
+local function get_visual_selection()
+  local save_reg = vim.fn.getreg('z')
+  local save_type = vim.fn.getregtype('z')
+  vim.cmd('noautocmd silent normal! "zy')
+  local text = vim.fn.getreg('z')
+  vim.fn.setreg('z', save_reg, save_type)
+  return text
+end
+
+local function escape_search(text)
+  return vim.fn.escape(text, '/\\'):gsub('\n', '\\n')
+end
+
+local function substitute_in_file(replacement)
+  local pattern = escape_search(get_visual_selection())
+  local repl = vim.fn.escape(replacement, '/\\&')
+  local pos = vim.fn.getpos('.')
+  vim.cmd('keepjumps normal! gg')
+  vim.cmd(string.format([[%%s/\V%s/%s/gc]], pattern, repl))
+  vim.fn.setpos('.', pos)
+end
+
+-- 1) Delete occurrences of the selection, confirming each
+vim.keymap.set('x', '<leader>d', function()
+  substitute_in_file('')
+end, { desc = 'Delete occurrences of selection (confirm each)' })
+
+-- 2) Replace occurrences of the selection, confirming each
+vim.keymap.set('x', '<leader>r', function()
+  local replacement = vim.fn.input('Replace with: ')
+  substitute_in_file(replacement)
+end, { desc = 'Replace occurrences of selection (confirm each)' })

@@ -85,6 +85,8 @@ Global mappings:
 | `<leader>ac` | Normal | Toggle Claude Code terminal |
 | `<leader>as` | Normal | Send current file path to Claude Code |
 | `<leader>as` | Visual | Send selection to Claude Code |
+| `<leader>d` | Visual | Delete occurrences of selection, confirming each |
+| `<leader>r` | Visual | Replace occurrences of selection, confirming each |
 | `<leader>bf` | Normal | Format current buffer |
 | `<leader>sv` | Normal | Open vertical split |
 | `<leader>sh` | Normal | Open horizontal split |
