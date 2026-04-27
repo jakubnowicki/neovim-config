@@ -8,7 +8,7 @@
   "mini.statusline": { "branch": "main", "commit": "b456bfe845e475e9cec065b7a9a1ef657ad2f41b" },
   "nightfox.nvim": { "branch": "main", "commit": "ba47d4b4c5ec308718641ba7402c143836f35aa9" },
   "nvim-cmp": { "branch": "main", "commit": "a1d504892f2bc56c2e79b65c6faded2fd21f3eca" },
-  "nvim-lspconfig": { "branch": "master", "commit": "e146efacbafed3789ac568abcc5a981c5decaa58" },
+  "nvim-lspconfig": { "branch": "master", "commit": "eeef061d58d759b5419c1e20c4b3a5bc3154f871" },
   "nvim-treesitter": { "branch": "master", "commit": "cf12346a3414fa1b06af75c79faebe7f76df080a" },
   "plenary.nvim": { "branch": "master", "commit": "74b06c6c75e4eeb3108ec01852001636d85a932b" },
   "telescope.nvim": { "branch": "master", "commit": "506338434fec5ad19cb1f8d45bf92d66c4917393" },
