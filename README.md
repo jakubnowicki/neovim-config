@@ -168,6 +168,7 @@ Completion mappings are active in insert/select mode:
 | `<C-e>` | Insert/Select | Abort completion |
 | `<C-Space>` | Insert/Select | Open completion menu |
 | `<C-y>` | Insert/Select | Confirm selected completion item |
+| `<CR>` | Insert/Select | Confirm selected completion item |
 
 ## R Setup Notes
 
