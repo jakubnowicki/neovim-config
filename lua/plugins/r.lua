@@ -6,12 +6,13 @@ return {
 
     local opts = {
       R_app = r_console,
-      R_cmd = "R",
       R_args = { "--quiet", "--no-save" },
       min_editor_width = 72,
       rconsole_width = 80,
+      bracketed_paste = true,
     }
 
     require("r").setup(opts)
+    require("config.r_keymaps").setup()
   end,
 }
