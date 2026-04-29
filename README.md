@@ -36,6 +36,8 @@ small enough to understand, easy to debug, and useful in restricted terminals.
 │   │   ├── lsp_hover.lua
 │   │   ├── lsp_keymaps.lua
 │   │   ├── options.lua
+│   │   ├── r_console.lua
+│   │   ├── r_keymaps.lua
 │   │   ├── telescope_keymaps.lua
 │   │   └── terminal.lua
 │   └── plugins
@@ -45,6 +47,7 @@ small enough to understand, easy to debug, and useful in restricted terminals.
 │       ├── gitsigns.lua
 │       ├── init.lua
 │       ├── lsp.lua
+│       ├── r.lua
 │       ├── statusline.lua
 │       ├── telescope.lua
 │       ├── treesitter.lua
@@ -65,6 +68,8 @@ small enough to understand, easy to debug, and useful in restricted terminals.
 - `lua/config/lsp_keymaps.lua` defines buffer-local LSP mappings.
 - `lua/config/lsp_hover.lua` provides compact and full hover popups.
 - `lua/config/cmp_keymaps.lua` defines completion mappings.
+- `lua/config/r_console.lua` chooses the R console executable.
+- `lua/config/r_keymaps.lua` defines R.nvim mappings.
 - `lua/config/telescope_keymaps.lua` defines Telescope mappings and picker
   defaults.
 - `lua/config/gitsigns_keymaps.lua` defines buffer-local Git hunk mappings.
@@ -74,6 +79,7 @@ small enough to understand, easy to debug, and useful in restricted terminals.
 ## Keymaps
 
 Leader is `<Space>`.
+Local leader is `\`.
 
 Global mappings:
 
@@ -172,6 +178,16 @@ Completion mappings are active in insert/select mode:
 | `<C-y>` | Insert/Select | Confirm selected completion item |
 | `<CR>` | Insert/Select | Confirm selected completion item |
 
+R.nvim mappings:
+
+| Key | Mode | Action |
+| --- | --- | --- |
+| `<leader>rr` | Normal | Start R |
+| `<leader>rl` | Normal | Send line to R |
+| `<leader>rs` | Visual | Send selection to R |
+| `<leader>rf` | Normal | Send file to R |
+| `<leader>rb` | Normal | Send current function to R |
+
 ## R Setup Notes
 
 The current language setup is deliberately R-first.
@@ -179,11 +195,23 @@ The current language setup is deliberately R-first.
 Expected external tools:
 
 - R
+- optional `radian` or `arf` for a nicer R console
 - R package `languageserver`
 - `air` available on `PATH`
 
-Formatting is handled only by `air`. The R language server is used for editor
-features and has document formatting disabled to avoid conflicts.
+R console integration is handled by `R.nvim`. The configured console is chosen
+in this order:
+
+1. `$NVIM_R_CONSOLE`, when set.
+2. `radian`, when available.
+3. `arf`, when available.
+4. `R`.
+
+R.nvim starts the console with `--quiet --no-save`, uses bracketed paste, and
+opens the R console in a side split once the editor is wide enough.
+
+Formatting is still handled only by `air`. The R language server is used for
+editor features and has document formatting disabled to avoid conflicts.
 
 To disable automatic formatting for a project, create this file in the project
 root:
