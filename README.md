@@ -68,7 +68,7 @@ small enough to understand, easy to debug, and useful in restricted terminals.
 - `lua/config/lsp_keymaps.lua` defines buffer-local LSP mappings.
 - `lua/config/lsp_hover.lua` provides compact and full hover popups.
 - `lua/config/cmp_keymaps.lua` defines completion mappings.
-- `lua/config/r_console.lua` chooses the R console executable.
+- `lua/config/r_console.lua` chooses and toggles the R console.
 - `lua/config/r_keymaps.lua` defines R.nvim mappings.
 - `lua/config/telescope_keymaps.lua` defines Telescope mappings and picker
   defaults.
@@ -182,7 +182,7 @@ R.nvim mappings:
 
 | Key | Mode | Action |
 | --- | --- | --- |
-| `<leader>rr` | Normal | Start R |
+| `<leader>rr` | Normal | Toggle R console |
 | `<leader>rl` | Normal | Send line to R |
 | `<leader>rs` | Visual | Send selection to R |
 | `<leader>rf` | Normal | Send file to R |

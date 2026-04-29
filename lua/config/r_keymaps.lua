@@ -2,8 +2,9 @@ local M = {}
 
 function M.setup()
   local map = vim.keymap.set
+  local r_console = require("config.r_console")
 
-  map("n", "<leader>rr", "<Plug>RStart", { desc = "Start R" })
+  map("n", "<leader>rr", r_console.toggle, { desc = "Toggle R console" })
 
   map("n", "<leader>rl", "<Plug>RSendLine", { desc = "Send line to R" })
   map("v", "<leader>rs", "<Plug>RSendSelection", { desc = "Send selection to R" })
