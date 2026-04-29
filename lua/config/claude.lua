@@ -1,4 +1,5 @@
 local M = {}
+local tool_window = require("config.tool_window")
 
 -- Claude terminal state
 M.term_buf = nil
@@ -24,82 +25,19 @@ local function project_root()
   return vim.fn.getcwd()
 end
 
-local function is_valid_win(win)
-  return win and vim.api.nvim_win_is_valid(win)
-end
-
-local function is_valid_buf(buf)
-  return buf and vim.api.nvim_buf_is_valid(buf)
-end
-
-local function set_terminal_keymaps(buf)
-  vim.keymap.set("t", "<Esc>", [[<C-\><C-n>]], { buffer = buf, silent = true })
-end
-
-local function rightmost_window()
-  local wins = vim.api.nvim_tabpage_list_wins(0)
-  local rightmost = nil
-  local max_col = -1
-
-  for _, win in ipairs(wins) do
-    local pos = vim.api.nvim_win_get_position(win)
-    local col = pos[2]
-
-    if col > max_col then
-      max_col = col
-      rightmost = win
-    end
-  end
-
-  return rightmost
-end
-
-local function open_target_window()
-  local wins = vim.api.nvim_tabpage_list_wins(0)
-
-  if #wins == 1 then
-    vim.cmd("botright vsplit")
-    vim.cmd("vertical resize " .. M.width)
-    return vim.api.nvim_get_current_win()
-  end
-
-  local target = rightmost_window()
-  if target and is_valid_win(target) then
-    vim.api.nvim_set_current_win(target)
-    vim.cmd("vertical resize " .. M.width)
-    return target
-  end
-
-  vim.cmd("botright vsplit")
-  vim.cmd("vertical resize " .. M.width)
-  return vim.api.nvim_get_current_win()
-end
-
 local function remember_window_state(win)
-  if not is_valid_win(win) then
+  if not tool_window.is_valid_win(win) then
     M.previous_buf = nil
     M.previous_win = nil
     return
   end
 
-  local buf = vim.api.nvim_win_get_buf(win)
-
-  if is_valid_buf(M.term_buf) and buf == M.term_buf then
-    M.previous_buf = nil
-    M.previous_win = nil
-    return
-  end
-
-  M.previous_buf = buf
+  M.previous_buf = tool_window.remember_buffer(win, M.term_buf)
   M.previous_win = win
 end
 
 local function restore_window_state()
-  if is_valid_win(M.term_win) and is_valid_buf(M.previous_buf) then
-    vim.api.nvim_win_set_buf(M.term_win, M.previous_buf)
-  elseif is_valid_win(M.term_win) then
-    vim.api.nvim_win_close(M.term_win, true)
-  end
+  tool_window.restore_buffer_or_close(M.term_win, M.previous_buf)
 
   M.term_win = nil
   M.previous_buf = nil
@@ -107,11 +45,7 @@ local function restore_window_state()
 end
 
 local function terminal_job_id()
-  if not is_valid_buf(M.term_buf) then
-    return nil
-  end
-
-  return vim.b[M.term_buf].terminal_job_id
+  return tool_window.terminal_job_id(M.term_buf)
 end
 
 local function leave_visual_mode()
@@ -120,7 +54,10 @@ local function leave_visual_mode()
 end
 
 local function ensure_open()
-  if is_valid_win(M.term_win) and is_valid_buf(M.term_buf) then
+  if
+    tool_window.is_valid_win(M.term_win)
+    and tool_window.is_valid_buf(M.term_buf)
+  then
     return false
   end
 
@@ -142,11 +79,8 @@ local function send_lines(lines)
       vim.fn.chansend(job_id, line .. "\n")
     end
 
-    if is_valid_win(M.term_win) then
-      vim.api.nvim_set_current_win(M.term_win)
-      vim.schedule(function()
-        vim.cmd("startinsert")
-      end)
+    if tool_window.is_valid_win(M.term_win) then
+      tool_window.focus(M.term_win, { startinsert = true })
     end
   end
 
@@ -178,31 +112,34 @@ local function visual_selection_lines()
 end
 
 function M.toggle()
-  if is_valid_win(M.term_win) then
+  if tool_window.is_valid_win(M.term_win) then
     restore_window_state()
     return
   end
 
-  local target = open_target_window()
+  if tool_window.hide_buffer_windows(M.term_buf) then
+    M.term_win = nil
+    return
+  end
+
+  local target = tool_window.open_right(M.width)
   remember_window_state(target)
 
   M.term_win = target
   vim.api.nvim_set_current_win(M.term_win)
 
-  if is_valid_buf(M.term_buf) then
+  if tool_window.is_valid_buf(M.term_buf) then
     vim.api.nvim_win_set_buf(M.term_win, M.term_buf)
-    vim.cmd("startinsert")
+    tool_window.focus(M.term_win, { startinsert = true })
     return
   end
 
   local root = project_root()
 
-  vim.cmd("terminal")
-  M.term_buf = vim.api.nvim_get_current_buf()
-  M.term_win = vim.api.nvim_get_current_win()
-
-  vim.bo[M.term_buf].buflisted = false
-  set_terminal_keymaps(M.term_buf)
+  M.term_buf, M.term_win = tool_window.open_terminal({
+    buflisted = false,
+    esc = true,
+  })
 
   vim.api.nvim_create_autocmd("BufWipeout", {
     buffer = M.term_buf,
@@ -221,7 +158,7 @@ function M.toggle()
     vim.fn.chansend(job_id, "claude\n")
   end
 
-  vim.cmd("startinsert")
+  tool_window.focus(M.term_win, { startinsert = true })
 end
 
 function M.send_current_file()
