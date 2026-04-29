@@ -39,7 +39,8 @@ small enough to understand, easy to debug, and useful in restricted terminals.
 │   │   ├── r_console.lua
 │   │   ├── r_keymaps.lua
 │   │   ├── telescope_keymaps.lua
-│   │   └── terminal.lua
+│   │   ├── terminal.lua
+│   │   └── tool_window.lua
 │   └── plugins
 │       ├── cmp.lua
 │       ├── colorscheme.lua
@@ -74,6 +75,8 @@ small enough to understand, easy to debug, and useful in restricted terminals.
   defaults.
 - `lua/config/gitsigns_keymaps.lua` defines buffer-local Git hunk mappings.
 - `lua/config/diffview_keymaps.lua` defines Git diff and history mappings.
+- `lua/config/tool_window.lua` contains shared helpers for terminal-like tool
+  windows.
 - `lua/plugins/*.lua` contains plugin specs loaded by `lazy.nvim`.
 
 ## Keymaps
