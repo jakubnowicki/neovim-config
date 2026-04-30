@@ -35,6 +35,7 @@ small enough to understand, easy to debug, and useful in restricted terminals.
 │   │   ├── lazy.lua
 │   │   ├── lsp_hover.lua
 │   │   ├── lsp_keymaps.lua
+│   │   ├── markdown.lua
 │   │   ├── options.lua
 │   │   ├── r_console.lua
 │   │   ├── r_keymaps.lua
@@ -68,6 +69,7 @@ small enough to understand, easy to debug, and useful in restricted terminals.
 - `lua/config/format.lua` centralizes formatting behavior.
 - `lua/config/lsp_keymaps.lua` defines buffer-local LSP mappings.
 - `lua/config/lsp_hover.lua` provides compact and full hover popups.
+- `lua/config/markdown.lua` defines minimal Markdown buffer options.
 - `lua/config/cmp_keymaps.lua` defines completion mappings.
 - `lua/config/r_console.lua` chooses and toggles the R console.
 - `lua/config/r_keymaps.lua` defines R.nvim mappings.
@@ -225,6 +227,13 @@ root:
 
 Manual formatting through `<leader>bf` still uses the configured `air` LSP
 client.
+
+## Markdown Notes
+
+Markdown support is intentionally native and plugin-free for now.
+
+Markdown, R Markdown, and Quarto buffers enable soft wrapping, line breaking,
+break indentation, spell checking, and Markdown conceal.
 
 ## Claude Code Notes
 
