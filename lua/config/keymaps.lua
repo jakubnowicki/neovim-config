@@ -1,7 +1,7 @@
 local map = vim.keymap.set
 local terminal = require("config.terminal")
 local fmt = require("config.format")
-local claude = require("config.claude")
+local ai = require("config.ai")
 
 -- leader key
 vim.g.mapleader = " "
@@ -41,12 +41,26 @@ map("n", "<leader>bp", "<cmd>bprevious<cr>", { desc = "Previous buffer" })
 map("n", "<leader>bn", "<cmd>bnext<cr>", { desc = "Next buffer" })
 map("n", "<leader>bd", "<cmd>bdelete<cr>", { desc = "Delete buffer" })
 
--- toggle Claude Code
-map("n", "<leader>ac", claude.toggle, { desc = "Toggle Claude Code" })
-map("n", "<leader>as", claude.send_current_file, { desc = "Send current file to Claude" })
+-- AI tools
+map("n", "<leader>ac", function()
+  ai.toggle("claude")
+end, { desc = "Toggle Claude Code" })
+map("n", "<leader>ax", function()
+  ai.toggle("codex")
+end, { desc = "Toggle Codex" })
+map("n", "<leader>ao", function()
+  ai.toggle("opencode")
+end, { desc = "Toggle OpenCode" })
+map("n", "<leader>ag", function()
+  ai.toggle("gemini")
+end, { desc = "Toggle Gemini" })
+map("n", "<leader>ap", function()
+  ai.toggle("copilot")
+end, { desc = "Toggle GitHub Copilot" })
+map("n", "<leader>as", ai.send_current_file, { desc = "Send current file to active AI tool" })
 map("v", "<leader>as", function()
-  claude.send_selection()
-end, { desc = "Send selection to Claude" })
+  ai.send_selection()
+end, { desc = "Send selection to active AI tool" })
 
 local function get_visual_selection()
   local save_reg = vim.fn.getreg('z')
