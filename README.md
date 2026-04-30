@@ -9,7 +9,7 @@ small enough to understand, easy to debug, and useful in restricted terminals.
 
 ## Principles
 
-- Terminal-first workflow for R/Shiny, git, tests, shell tools, and Claude Code.
+- Terminal-first workflow for R/Shiny, git, tests, shell tools, and AI tools.
 - No dependency on Nerd Fonts or GUI-only features.
 - Minimal plugins, added only when they solve a clear problem.
 - Modular Lua structure with each part easy to disable or replace.
@@ -26,7 +26,7 @@ small enough to understand, easy to debug, and useful in restricted terminals.
 ├── lua
 │   ├── config
 │   │   ├── autocmds.lua
-│   │   ├── claude.lua
+│   │   ├── ai.lua
 │   │   ├── cmp_keymaps.lua
 │   │   ├── diffview_keymaps.lua
 │   │   ├── format.lua
@@ -64,7 +64,7 @@ small enough to understand, easy to debug, and useful in restricted terminals.
 - `lua/config/keymaps.lua` contains global keymaps.
 - `lua/config/autocmds.lua` contains small automatic behaviors.
 - `lua/config/terminal.lua` contains the reusable bottom terminal.
-- `lua/config/claude.lua` contains the Claude Code terminal toggle.
+- `lua/config/ai.lua` manages terminal-based AI tools.
 - `lua/config/lazy.lua` bootstraps and configures `lazy.nvim`.
 - `lua/config/format.lua` centralizes formatting behavior.
 - `lua/config/lsp_keymaps.lua` defines buffer-local LSP mappings.
@@ -93,9 +93,13 @@ Global mappings:
 | `<leader>w` | Normal | Save file |
 | `<leader>q` | Normal | Close current window |
 | `<leader>tt` | Normal | Toggle bottom terminal |
-| `<leader>ac` | Normal | Toggle Claude Code terminal |
-| `<leader>as` | Normal | Send current file path to Claude Code |
-| `<leader>as` | Visual | Send selection to Claude Code |
+| `<leader>ac` | Normal | Toggle Claude Code |
+| `<leader>ax` | Normal | Toggle Codex |
+| `<leader>ao` | Normal | Toggle OpenCode |
+| `<leader>ag` | Normal | Toggle Gemini |
+| `<leader>ap` | Normal | Toggle GitHub Copilot |
+| `<leader>as` | Normal | Send current file path to active AI tool |
+| `<leader>as` | Visual | Send selection to active AI tool |
 | `<leader>d` | Visual | Delete occurrences of selection, confirming each |
 | `<leader>r` | Visual | Replace occurrences of selection, confirming each |
 | `<leader>bf` | Normal | Format current buffer |
@@ -235,18 +239,27 @@ Markdown support is intentionally native and plugin-free for now.
 Markdown, R Markdown, and Quarto buffers enable soft wrapping, line breaking,
 break indentation, spell checking, and Markdown conceal.
 
-## Claude Code Notes
+## AI Tool Notes
 
-Claude Code is run through Neovim's built-in terminal, not through a plugin.
+AI tools are run through Neovim's built-in terminal, not through plugins.
 
-Expected external tool:
+Supported external tools:
 
-- `claude` available on `PATH`
+- `claude` for Claude Code
+- `codex` for Codex
+- `opencode` for OpenCode
+- `gemini` for Gemini
+- `copilot` for GitHub Copilot
 
-`<leader>ac` opens Claude Code in a right-side window, starts it from the current
-project root, and reuses the Claude terminal buffer when toggled again.
+Each mapping checks whether its command is available before opening a terminal.
+Missing tools show a warning and do not break startup.
+
+AI tools share one right-side window. Opening one tool hides the currently
+visible AI tool while keeping its terminal buffer alive. Toggling the visible
+tool again restores the previous editor buffer or closes the AI window.
+
 `<leader>as` sends either the current file path from normal mode or the selected
-text from visual mode.
+text from visual mode to the active AI tool.
 
 ## Roadmap
 
@@ -255,7 +268,7 @@ The broader plan lives in `project.md`. The next likely steps are:
 1. Keep tightening the current R workflow.
 2. Add a file explorer such as Oil if the workflow needs it.
 3. Add formatting support for one more language at a time.
-4. Add Copilot only after the core editing workflow is solid.
+4. Keep the terminal-based AI workflow small and explicit.
 
 ## What This Config Avoids
 
