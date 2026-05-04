@@ -93,6 +93,7 @@ Global mappings:
 | `<leader>w` | Normal | Save file |
 | `<leader>q` | Normal | Close current window |
 | `<leader>tt` | Normal | Toggle bottom terminal |
+| `<leader>tf` | Normal | Focus or open bottom terminal |
 | `<leader>ac` | Normal | Toggle Claude Code |
 | `<leader>ax` | Normal | Toggle Codex |
 | `<leader>ao` | Normal | Toggle OpenCode |

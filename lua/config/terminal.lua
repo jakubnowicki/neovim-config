@@ -6,10 +6,9 @@ M.term_buf = nil
 M.term_win = nil
 M.height = 12
 
-function M.toggle()
-  -- If the terminal buffer is visible, hide it without killing the job.
-  if tool_window.hide_buffer_windows(M.term_buf) then
-    M.term_win = nil
+local function open_or_focus()
+  if tool_window.focus_buffer_window(M.term_buf, { startinsert = true }) then
+    M.term_win = vim.api.nvim_get_current_win()
     return
   end
 
@@ -30,8 +29,21 @@ function M.toggle()
     esc = true,
   })
 
-  -- go straight to insert mode
   tool_window.focus(M.term_win, { startinsert = true })
+end
+
+function M.toggle()
+  -- If the terminal buffer is visible, hide it without killing the job.
+  if tool_window.hide_buffer_windows(M.term_buf) then
+    M.term_win = nil
+    return
+  end
+
+  open_or_focus()
+end
+
+function M.focus_or_open()
+  open_or_focus()
 end
 
 return M
